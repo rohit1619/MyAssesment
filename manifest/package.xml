@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	
-	<types>
-		<members>Zippopotamus</members>
-		<name>ExternalCredential</name>
-	</types>
 	<types>
 		<members>*</members>
-		<name>ExternalServiceRegistration</name>
+		<name>CustomMetadata</name>
 	</types>
-	<types>
-		<members>API_Call_Permission_Set</members>
-		<name>PermissionSet</name>
-	</types>
+	
 	<version>63.0</version>
 </Package>
