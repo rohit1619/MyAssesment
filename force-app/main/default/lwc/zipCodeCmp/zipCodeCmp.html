@@ -1,0 +1,88 @@
+<template>
+    <lightning-card title="Get Address">
+        <template if:false={isUS}>
+        <div class="slds-p-around_medium">
+            <lightning-combobox
+            name="country"
+            label="Select Country"
+            value={country}
+            options={countryOptions}
+            onchange={handleCountryChange}>
+            </lightning-combobox>
+            <lightning-input label="Zip Code" value={zipCode} onchange={handleZipChange}></lightning-input>
+            <lightning-button label="Find Address" onclick={handleLookup} class="slds-m-top_medium"></lightning-button>
+        </div>
+        <template lwc:if={sppiner}>
+        <div class="">
+            <lightning-spinner alternative-text="Loading" size="xx-small"></lightning-spinner>
+        </div>
+        </template>
+
+        <!-- modal start -->      
+        <template if:true={isShowModal}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalBox}>
+                <lightning-icon icon-name="utility:close"
+                    alternative-text="close"
+                    variant="inverse"
+                    size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Addresses Assosiated with zip code {responseZipCode}</h2>
+                </header>
+
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <tbody>
+                    <tr>
+                        <th>Country: </th>
+                        <th>{responseCountry}</th>
+                    </tr>
+                    <tr>
+                        <th>Zip Code:</th>
+                        <th>{responseZipCode}</th>
+                    </tr>
+                </tbody>
+                </table>
+
+                <div style="height: 300px;" class="slds-text-align_center">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr>
+                            <th>Place name</th>
+                            <th>State</th>
+                             </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={places} for:item="place">
+                                <tr key={place.Id}>
+                                    <td>{place.placename}</td>
+                                    <td>{place.state}</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+
+                </div>
+
+                <!-- modal footer start-->
+                <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={closeModalBox}>Close</button>
+                </footer>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- modal end -->
+    </template>
+    <template if:true={isUS}>
+        <c-zip-code-us-cmp responsecountry={responseCountry} places={places} responsezipcode={responseZipCode} ></c-zip-code-us-cmp>
+    </template>
+    </lightning-card>
+</template>
